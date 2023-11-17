@@ -1,6 +1,6 @@
 { "type": "record",
   "name": "ranges",
-  "namespace": "io.confluent.avro.random.generator",
+  "namespace": "io.specmesh.avro.random.generator",
   "fields":
     [
       {

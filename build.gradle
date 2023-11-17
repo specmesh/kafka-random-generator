@@ -1,5 +1,5 @@
 /*
-   Copyright 2018 Confluent Inc.
+   Copyright 2023 SpecMesh Contributors (https://github.com/specmesh)
 
    Licensed under the Apache License, Version 2.0 (the "License"); you may not
    use this file except in compliance with the License. You may obtain a copy of
@@ -22,7 +22,7 @@ apply plugin: 'signing'
 
 sourceCompatibility = 1.8
 
-group = 'io.confluent.avro'
+group = 'io.specmesh.avro'
 archivesBaseName = 'avro-random-generator'
 version = '0.4.2-SNAPSHOT'
 
@@ -60,7 +60,7 @@ task standalone(type: Jar) {
         }
     }
     manifest {
-        attributes 'Main-Class': 'io.confluent.avro.random.generator.Main'
+        attributes 'Main-Class': 'io.specmesh.avro.random.generator.Main'
     }
     with jar
 }
@@ -71,9 +71,6 @@ clean.doLast {
 
 repositories {
     jcenter()
-    maven {
-        url 'https://nexus.confluent.io/repository/maven-snapshots/'
-    }
 }
 
 uploadArchives {
@@ -84,46 +81,18 @@ uploadArchives {
             }
 
             pom.groupId = project.group
-            pom.artifactId = 'avro-random-generator'
+            pom.artifactId = 'kafka-random-generator'
             pom.version = project.version
 
-            def nexusUserName = findProperty('nexusUserName') ?: ''
-            def nexusPassword = findProperty('nexusPassword') ?: ''
-            if (nexusUserName != '' && nexusPassword != '') {
-                snapshotRepository(url: 'https://nexus.confluent.io/repository/maven-snapshots/') {
-                    authentication(userName: nexusUserName, password: nexusPassword)
-                }
-                repository(url: 'https://nexus.confluent.io/repository/maven-public/') {
-                    authentication(userName: nexusUserName, password: nexusPassword)
-                }
-                println 'Nexus credentials provided; archive uploading enabled'
-            } else {
-                println 'No Nexus credentials provided; archive uploading disabled'
-            }
-
-            def sonatypeUserName = findProperty('sonatypeUserName') ?: ''
-            def sonatypePassword = findProperty('sonatypePassword') ?: ''
-            if (sonatypeUserName != '' && sonatypePassword != '') {
-                snapshotRepository(url: 'https://oss.sonatype.org/content/repositories/snapshots') {
-                    authentication(userName: sonatypeUserName, password: sonatypePassword)
-                }
-                repository(url: 'https://oss.sonatype.org/service/local/staging/deploy/maven2/') {
-                    authentication(userName: sonatypeUserName, password: sonatypePassword)
-                }
-                println 'Sonatype credentials provided; archive uploading enabled'
-            } else {
-                println 'No Sonatype credentials provided; archive uploading disabled'
-            }
-
             pom.project {
-                name 'Avro Random Generator'
-                description 'Avro Random Generator is a tool for randomly generating data to match Avro schemas'
-                url 'https://github.com:confluentinc/avro-random-generator'
+                name 'Kafka Random Generator'
+                description 'Kafka Random Generator is a tool for randomly generating data to match Avro schemas'
+                url 'https://github.com:specmesh/kafka-random-generator'
 
                 scm {
-                    url 'https://github.com:confluentinc/avro-random-generator'
-                    connection 'scm:git:ssh://github.com:confluentinc/avro-random-generator.git'
-                    developerConnection 'scm:git:ssh://github.com:confluentinc/avro-random-generator.git'
+                    url 'https://github.com/specmesh/kafka-random-generator'
+                    connection 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
+                    developerConnection 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
                 }
 
                 licenses {
@@ -166,6 +135,9 @@ checkstyle {
 }
 
 javadoc {
-    options.links 'https://docs.oracle.com/javase/8/docs/api/'
-    options.links 'https://avro.apache.org/docs/1.8.1/api/java/'
+    options.addBooleanOption('html5', true)
+    options.addStringOption("Xwerror", "-quiet")
+    options.addStringOption('Xdoclint:none', '-quiet')
+//    options.links 'https://docs.oracle.com/javase/8/docs/api/'
+//    options.links 'https://avro.apache.org/docs/1.8.1/api/java/'
 }

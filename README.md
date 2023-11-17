@@ -59,7 +59,7 @@ Flags:
     -s &lt;schema&gt;, --schema &lt;schema&gt;:	Spoof the schema &lt;schema&gt;
 
 Source repository:
-https://github.com/confluentinc/avro-random-generator
+https://github.com/specmesh/kafka-random-generator
 </pre>
 
 

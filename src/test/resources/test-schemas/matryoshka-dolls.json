@@ -1,6 +1,6 @@
 { "type": "record",
   "name": "outer_doll",
-  "namespace": "io.confluent.avro.random.generator",
+  "namespace": "io.specmesh.avro.random.generator",
   "fields": [
       { "name": "middle", "type":
         { "type": "record",
@@ -31,7 +31,7 @@
       },
       {
         "name": "inner",
-        "type": "io.confluent.avro.random.generator.inner_doll"
+        "type": "io.specmesh.avro.random.generator.inner_doll"
       }
             ]
 }

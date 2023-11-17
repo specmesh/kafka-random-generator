@@ -1,7 +1,7 @@
 {
   "type": "record",
   "name": "decimal_logical_type_test",
-  "namespace": "io.confluent.avro.random.generator",
+  "namespace": "io.specmesh.avro.random.generator",
   "fields": [
     {
       "name": "decimal_fixed",

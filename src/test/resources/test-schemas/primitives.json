@@ -1,6 +1,6 @@
 { "type": "record",
   "name": "primitives",
-  "namespace": "io.confluent.avro.random.generator",
+  "namespace": "io.specmesh.avro.random.generator",
   "fields":
     [
       { "name": "null_prim", "type": ["null", "int"] },
