@@ -13,30 +13,44 @@
    License for the specific language governing permissions and limitations under
    the License.
  */
+plugins {
+    id 'java'
+    id 'idea'
+    id 'checkstyle'
+    id 'maven'
+    id 'signing'
+    id 'maven-publish'
+}
 
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'checkstyle'
-apply plugin: 'maven'
-apply plugin: 'signing'
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
 
-sourceCompatibility = 1.8
+group = 'io.specmesh.kafka-random-generator'
+version = '0.5.0-SNAPSHOT'
+archivesBaseName = 'kafka-random-generator'
 
-group = 'io.specmesh.avro'
-archivesBaseName = 'avro-random-generator'
-version = '0.4.2-SNAPSHOT'
+repositories {
+    jcenter()
+    mavenCentral()
+}
 
-signing {
-    sign configurations.archives
-    required {
-        gradle.taskGraph.hasTask('uploadArchives')
-    }
+dependencies {
+    implementation 'org.slf4j:slf4j-api:1.7.32'
+    implementation 'org.apache.avro:avro:1.10.2'
+    implementation 'com.github.mifmif:generex:1.0.2'
+
+    // Test dependencies
+    testImplementation 'junit:junit:4.13.2'
 }
 
 jar {
     manifest {
-        attributes  'Implementation-Title': 'Avro Random Generator',
-                    'Implementation-Version': version
+        attributes(
+                'Implementation-Title': 'Avro Random Generator',
+                'Implementation-Version': version
+        )
     }
 }
 
@@ -50,62 +64,56 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-// Copied from http://stackoverflow.com/questions/4871656/using-gradle-to-build-a-jar-with-dependencies
 task standalone(type: Jar) {
     destinationDir file("$rootDir/bin")
     archiveName 'arg.jar'
-    from {
-        (configurations.runtime).collect {
-            it.isDirectory() ? it : zipTree(it)
-        }
-    }
+    from configurations.runtimeClasspath
     manifest {
         attributes 'Main-Class': 'io.specmesh.avro.random.generator.Main'
     }
     with jar
 }
 
-clean.doLast {
-    new File("$rootDir/bin").deleteDir()
+clean {
+    doLast {
+        file("$rootDir/bin").deleteDir()
+    }
 }
 
-repositories {
-    jcenter()
-}
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            groupId = project.group
+            artifactId = 'kafka-random-generator'
+            version = project.version
 
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment {
-                MavenDeployment deployment -> signing.signPom(deployment)
-            }
-
-            pom.groupId = project.group
-            pom.artifactId = 'kafka-random-generator'
-            pom.version = project.version
-
-            pom.project {
-                name 'Kafka Random Generator'
-                description 'Kafka Random Generator is a tool for randomly generating data to match Avro schemas'
-                url 'https://github.com:specmesh/kafka-random-generator'
+            pom {
+                name = 'Kafka Random Generator'
+                description = 'Kafka Random Generator is a tool for randomly generating data to match Avro schemas'
+                url = 'https://github.com:specmesh/kafka-random-generator'
 
                 scm {
-                    url 'https://github.com/specmesh/kafka-random-generator'
-                    connection 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
-                    developerConnection 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
+                    url = 'https://github.com/specmesh/kafka-random-generator'
+                    connection = 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
+                    developerConnection = 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
                 }
 
                 licenses {
                     license {
-                        name 'Apache License 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.html'
+                        name = 'Apache License 2.0'
+                        url = 'http://www.apache.org/licenses/LICENSE-2.0.html'
                     }
                 }
 
                 developers {
                     developer {
-                        id 'C0urante'
-                        name 'Chris Egerton'
+                        id = 'C0urante'
+                        name = 'Chris Egerton'
+                    }
+                    developer {
+                        id = 'blu3monkey'
+                        name = 'NAvery'
                     }
                 }
             }
@@ -113,31 +121,32 @@ uploadArchives {
     }
 }
 
+signing {
+    setRequired {
+        !project.version.toString().endsWith("-SNAPSHOT") && !project.hasProperty("skipSigning")
+    }
+    if (project.hasProperty("signingKey")) {
+        useInMemoryPgpKeys(properties["signingKey"].toString(), properties["signingPassword"].toString())
+    }
+
+    sign(publishing.publications["mavenJava"])
+}
+
 artifacts {
     archives jar, javadocJar, sourcesJar
 }
 
-dependencies {
-    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.21'
-
-    compile group: 'org.apache.avro', name: 'avro', version: '1.9.1'
-
-    compile group: 'com.github.mifmif', name: 'generex', version: '1.0.2'
-
-    ////////////////////////////////////////////////////////////////
-
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-}
-
 checkstyle {
     configFile = file("${project.rootDir}/config/checkstyle/google_checks.xml")
-    toolVersion = '6.18'
+//    toolVersion = '8.47'
 }
 
 javadoc {
-    options.addBooleanOption('html5', true)
-    options.addStringOption("Xwerror", "-quiet")
-    options.addStringOption('Xdoclint:none', '-quiet')
-//    options.links 'https://docs.oracle.com/javase/8/docs/api/'
-//    options.links 'https://avro.apache.org/docs/1.8.1/api/java/'
+    options {
+        addBooleanOption('html5', true)
+        addStringOption("Xwerror", "-quiet")
+        addStringOption('Xdoclint:none', '-quiet')
+        links 'https://docs.oracle.com/en/java/javase/11/docs/api/'
+        links 'https://avro.apache.org/docs/1.10.2/api/java/'
+    }
 }
