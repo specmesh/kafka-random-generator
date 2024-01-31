@@ -17,7 +17,6 @@ plugins {
     id 'java'
     id 'idea'
     id 'checkstyle'
-    id 'maven'
     id 'signing'
     id 'maven-publish'
 }
@@ -32,13 +31,12 @@ version = '0.5.0-SNAPSHOT'
 archivesBaseName = 'kafka-random-generator'
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
 dependencies {
     implementation 'org.slf4j:slf4j-api:1.7.32'
-    implementation 'org.apache.avro:avro:1.10.2'
+    implementation 'org.apache.avro:avro:1.11.3'
     implementation 'com.github.mifmif:generex:1.0.2'
 
     // Test dependencies
