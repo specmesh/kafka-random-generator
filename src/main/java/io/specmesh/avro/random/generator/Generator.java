@@ -481,7 +481,7 @@ public class Generator {
     return option;
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({"unchecked", "checkstyle:JavaNCSS"})
   private List<Object> parseOptions(Schema schema, Map propertiesProp) {
     enforceMutualExclusion(
         propertiesProp, OPTIONS_PROP,
@@ -651,6 +651,7 @@ public class Generator {
     return new BooleanIterator((generation % 2 == 1) ^ ((Boolean) startProp));
   }
 
+  @SuppressWarnings("checkstyle:JavaNCSS")
   private Iterator<Object> getIntegralIterator(
       Long iterationStartField,
       Long iterationRestartField,
@@ -771,6 +772,7 @@ public class Generator {
     );
   }
 
+  @SuppressWarnings("checkstyle:JavaNCSS")
   private Iterator<Object> getDecimalIterator(
       Double iterationStartField,
       Double iterationRestartField,
@@ -1162,8 +1164,10 @@ public class Generator {
         Map rangeProps = (Map) rangeProp;
         Double rangeMinField = getDecimalNumberField(RANGE_PROP, RANGE_PROP_MIN, rangeProps);
         Double rangeMaxField = getDecimalNumberField(RANGE_PROP, RANGE_PROP_MAX, rangeProps);
-        double rangeMin = rangeMinField != null ? rangeMinField : -1 * Math.pow(10, decimalLogicalType.getPrecision() - decimalLogicalType.getScale());
-        double rangeMax = rangeMaxField != null ? rangeMaxField : Math.pow(10, decimalLogicalType.getPrecision() - decimalLogicalType.getScale());
+        double rangeMin = rangeMinField != null ? rangeMinField : -1 * Math.pow(10, decimalLogicalType.getPrecision()
+                - decimalLogicalType.getScale());
+        double rangeMax = rangeMaxField != null ? rangeMaxField : Math.pow(10, decimalLogicalType.getPrecision()
+                - decimalLogicalType.getScale());
         if (rangeMin >= rangeMax) {
           throw new RuntimeException(String.format(
               "'%s' field must be strictly less than '%s' field in %s property",
@@ -1530,16 +1534,16 @@ public class Generator {
     private final int min;
     private final int max;
 
-    public LengthBounds(int min, int max) {
+    LengthBounds(int min, int max) {
       this.min = min;
       this.max = max;
     }
 
-    public LengthBounds(int exact) {
+    LengthBounds(int exact) {
       this(exact, exact + 1);
     }
 
-    public LengthBounds() {
+    LengthBounds() {
       this(DEFAULT_MIN, DEFAULT_MAX);
     }
 
@@ -1567,7 +1571,7 @@ public class Generator {
     private final Type type;
     private BigInteger current;
 
-    public IntegralIterator(long start, long restart, long step, long initial, long count, Type type) {
+    IntegralIterator(long start, long restart, long step, long initial, long count, Type type) {
       this.start = BigInteger.valueOf(start);
       this.restart = BigInteger.valueOf(restart);
       this.step = BigInteger.valueOf(step);
@@ -1623,7 +1627,7 @@ public class Generator {
     private final Type type;
     private BigDecimal current;
 
-    public DecimalIterator(double start, double restart, double step, double initial, long count, Type type) {
+    DecimalIterator(double start, double restart, double step, double initial, long count, Type type) {
       this.start = BigDecimal.valueOf(start);
       this.restart = BigDecimal.valueOf(restart);
       this.modulo = this.restart.subtract(this.start);
@@ -1663,7 +1667,7 @@ public class Generator {
   private static class BooleanIterator implements Iterator<Object> {
     private boolean current;
 
-    public BooleanIterator(boolean start) {
+    BooleanIterator(boolean start) {
       current = start;
     }
 
