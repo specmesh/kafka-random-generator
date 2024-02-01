@@ -1,10 +1,8 @@
 package io.specmesh.avro.random.generator;
 
-import org.apache.avro.generic.GenericRecord;
 import org.junit.Test;
 
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.function.BiConsumer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
