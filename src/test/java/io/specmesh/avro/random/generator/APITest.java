@@ -21,18 +21,15 @@ public class APITest {
 
         final var counter = new AtomicInteger();
 
-        api.run(new BiConsumer<Object, GenericRecord>() {
-            @Override
-            public void accept(Object key, GenericRecord genericRecord) {
-                counter.incrementAndGet();
-                System.out.println(key);
-            }
+        api.run((key, genericRecord) -> {
+            counter.incrementAndGet();
+            System.out.println(key);
         });
 
         assertThat(counter.get(), is(count1));
     }
 
-    private static String schema = "{\n" +
+    private static final String schema = "{\n" +
             "  \"type\": \"record\",\n" +
             "  \"name\": \"simple_schema\",\n" +
             "  \"namespace\": \"io.specmesh.avro.random.generator\",\n" +
