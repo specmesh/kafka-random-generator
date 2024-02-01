@@ -29,9 +29,14 @@ import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.Iterator;
 
-/* TODO:  Find a good argument parser that doesn't strip double quotes off of arguments and allows
-          for mutually exclusive options to cancel each other out without error */
-public class Main {
+/**
+ * Replace with PicoCLi - Find a good argument parser that doesn't strip double quotes off of arguments and allows for
+ * mutually exclusive options to cancel each other out without error
+ * */
+public final class Main {
+  private Main() {
+
+  }
   public static final String PROGRAM_NAME = "arg";
 
   public static final String SCHEMA_SHORT_FLAG = "-s";
@@ -73,6 +78,7 @@ public class Main {
    * {@link Generator} object to produce randomized output according to the parsed options.
    * @param args - args
    */
+  @SuppressWarnings({"checkstyle:CyclomaticComplexity", "checkstyle:JavaNCSS"})
   public static void main(String[] args) {
     String schema = null;
     String schemaFile = "-";
