@@ -37,15 +37,42 @@ cause any issues if present when the schema is used with other programs.
 ## Building
 
 ```
-$ ./gradlew standalone
+$ ./gradlew shadowJar
 ```
+Generate artifacts in ./build/libs/ (source, jar and all.jar)
+
+## Generate 10 records `-i 10` as JSON (default) `-j` to STDOUT from the iteration.json schema file
+```
+ $java -jar build/libs/kafka-random-generator-0.5.0-SNAPSHOT-all.jar -f src/test/resources/test-schemas/iteration.json -i 10
+
+```
+## Generate 2 records `-i 2` as JSON (default) `-j` and demonstrate how schema references are used
+```
+ $java -jar build/libs/kafka-random-generator-0.5.0-SNAPSHOT-all.jar -f src/test/resources/test-schemas/matryoshka-dolls.json -i 10
+
+{
+  "middle" : {
+    "middle_array" : [ 0.94745916, 0.35898072, 0.61825657, 0.25671786, 0.08188975, 0.16594261, 0.32279903, 0.30914247, 0.92460275 ],
+    "inner" : {
+      "inner_int" : -1761172511,
+      "inner_string" : "\u0019)A%\u0017Y$M\u0002(M\u0013m"
+    }
+  },
+  "inner" : {
+    "inner_int" : -470641020,
+    "inner_string" : "*H/^}rp"
+  }
+}
+
+```
+
 
 ## CLI Usage
 
 <pre>
-$ ./arg -?
+$ java -jar build/libs/kafka-random-generator-XXX-all.jar -help
 arg: Generate random Avro data
-Usage: arg [-f &lt;file&gt; | -s &lt;schema&gt;] [-j | -b] [-p | -c] [-i &lt;i&gt;] [-o &lt;file&gt;]
+Usage: java -jar xxx [-f &lt;file&gt; | -s &lt;schema&gt;] [-j | -b] [-p | -c] [-i &lt;i&gt;] [-o &lt;file&gt;]
 
 Flags:
     -?, -h, --help:	Print a brief usage summary and exit with status 0
