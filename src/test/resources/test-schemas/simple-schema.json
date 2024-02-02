@@ -1,0 +1,27 @@
+{
+  "type": "record",
+  "name": "simple_schema",
+  "namespace": "io.specmesh.avro.random.generator",
+  "fields": [
+    {
+      "name": "key",
+        "type": {
+          "type": "string",
+          "arg.properties": {
+            "regex": "[a-zA-Z]*",
+            "length": 10
+          }
+        }
+    },
+    {
+      "name": "MY_STRING",
+      "type": {
+        "type": "string",
+        "arg.properties": {
+          "regex": "[a-zA-Z0-9]{16}"
+        }
+      },
+      "default": ""
+    }
+  ]
+}
