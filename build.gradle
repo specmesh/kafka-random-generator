@@ -31,7 +31,8 @@ java {
 }
 mainClassName = 'io.specmesh.avro.random.generator.Main'
 group = 'io.specmesh.kafka-random-generator'
-version = '0.5.0-SNAPSHOT'
+project.version = scmVersion.version
+version = scmVersion.version
 archivesBaseName = 'kafka-random-generator'
 
 repositories {
