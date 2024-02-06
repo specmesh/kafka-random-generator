@@ -104,12 +104,12 @@ publishing {
             pom {
                 name = 'Kafka Random Generator'
                 description = 'Kafka Random Generator is a tool for randomly generating data to match Avro schemas'
-                url = 'https://github.com:specmesh/kafka-random-generator'
+                url = 'https://github.com/specmesh/kafka-random-generator'
 
                 scm {
                     url = 'https://github.com/specmesh/kafka-random-generator'
-                    connection = 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
-                    developerConnection = 'scm:git:ssh://github.com:specmesh/kafka-random-generator.git'
+                    connection = 'scm:git:ssh://github.com/specmesh/kafka-random-generator.git'
+                    developerConnection = 'scm:git:ssh://github.com/specmesh/kafka-random-generator.git'
                 }
 
                 licenses {
@@ -125,9 +125,12 @@ publishing {
                         name = 'Chris Egerton'
                     }
                     developer {
-                        id = 'blu3monkey'
-                        name = 'NAvery'
+                        name.set("Neil Avery")
+                        email.set("8012398+neil-avery@users.noreply.github.com")
+                        organization.set("SpecMesh Master Builders")
+                        organizationUrl.set("https://www.specmesh.io")
                     }
+
                 }
             }
         }
