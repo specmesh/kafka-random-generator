@@ -138,10 +138,14 @@ publishing {
 }
 
 signing {
+
+    print "Signing had Property:?"
+
     setRequired {
         !project.version.toString().endsWith("-SNAPSHOT") && !project.hasProperty("skipSigning")
     }
     if (project.hasProperty("signingKey")) {
+        print "Signing key: ${properties['signingKey']}"
         useInMemoryPgpKeys(properties["signingKey"].toString(), properties["signingPassword"].toString())
     }
 
