@@ -30,7 +30,7 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 mainClassName = 'io.specmesh.avro.random.generator.Main'
-group = 'io.specmesh.kafka-random-generator'
+group = 'io.specmesh'
 project.version = scmVersion.version
 version = scmVersion.version
 archivesBaseName = 'kafka-random-generator'
