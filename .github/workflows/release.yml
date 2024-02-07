@@ -17,7 +17,7 @@ concurrency: "${{ github.repository }}-versioning"
 jobs:
   release:
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/master'
     permissions:
       contents: write
     steps:
