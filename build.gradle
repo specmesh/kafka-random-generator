@@ -97,7 +97,7 @@ publishing {
     publications {
         mavenJava(MavenPublication) {
             from components.java
-            groupId = project.group
+            groupId = 'io.specmesh'
             artifactId = 'kafka-random-generator'
             version = project.version
 
