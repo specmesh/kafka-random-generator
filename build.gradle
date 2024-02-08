@@ -67,20 +67,20 @@ shadowJar {
     mergeServiceFiles()
 }
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
+tasks.register('javadocJar', Jar) {
+    archiveClassifier.set('javadoc')
+    from(tasks.named('javadoc'))
 }
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
+tasks.register('sourcesJar', Jar) {
+    archiveClassifier.set('sources')
     from sourceSets.main.allSource
 }
 
-task standalone(type: Jar) {
-    destinationDir file("$rootDir/bin")
-    archiveName 'arg.jar'
-    from configurations.runtimeClasspath
+tasks.register('standalone', Jar) {
+    destinationDirectory.set(file("$rootDir/bin"))
+    archiveFileName.set('arg.jar')
+    from(configurations.runtimeClasspath)
     manifest {
         attributes 'Main-Class': 'io.specmesh.avro.random.generator.Main'
     }
@@ -139,16 +139,14 @@ publishing {
 
 signing {
 
-    println "Calling - Signing: *******"
-
     setRequired {
         !project.version.toString().endsWith("-SNAPSHOT") && !project.hasProperty("skipSigning")
     }
     if (project.hasProperty("signingKey")) {
-        print "SIGNING "
-        useInMemoryPgpKeys(project.property("signingKey"), project.property("signingPassword"))
+        println "SIGNING"
+        useInMemoryPgpKeys(project.property("signingKey").toString(), project.property("signingPassword").toString())
     } else {
-        print "NOT SIGNING"
+        println "NOT SIGNING"
     }
 
     sign(publishing.publications["mavenJava"])
@@ -162,13 +160,9 @@ checkstyle {
     configFile = file("${project.rootDir}/config/checkstyle/checkstyle.xml")
     toolVersion = '10.3.3'
 }
-task checkstyleReport(type: Checkstyle) {
-    source 'src/main/java'
+tasks.register('checkstyleReport', Checkstyle) {
+    source = fileTree('src/main/java')
     classpath = files()
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
 }
 javadoc {
     options {
