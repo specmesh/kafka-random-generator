@@ -139,14 +139,16 @@ publishing {
 
 signing {
 
-    print "Signing had Property:?"
+    println "Calling - Signing: *******"
 
     setRequired {
         !project.version.toString().endsWith("-SNAPSHOT") && !project.hasProperty("skipSigning")
     }
     if (project.hasProperty("signingKey")) {
-        print "Signing key: ${properties['signingKey']}"
-        useInMemoryPgpKeys(properties["signingKey"].toString(), properties["signingPassword"].toString())
+        print "SIGNING "
+        useInMemoryPgpKeys(project.property("signingKey"), project.property("signingPassword"))
+    } else {
+        print "NOT SIGNING"
     }
 
     sign(publishing.publications["mavenJava"])
@@ -186,11 +188,11 @@ nexusPublishing {
             snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
 
             if (project.hasProperty("SONA_USERNAME")) {
-                username.set(project.property("SONA_USERNAME").toString())
+                username.set(project.property("SONA_USERNAME"))
             }
 
             if (project.hasProperty("SONA_PASSWORD")) {
-                password.set(project.property("SONA_PASSWORD").toString())
+                password.set(project.property("SONA_PASSWORD"))
             }
         }
     }
