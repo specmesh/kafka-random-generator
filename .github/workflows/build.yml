@@ -49,7 +49,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ./gradlew cV
-          ./gradlew publish closeAndReleaseStagingRepository --debug
+          ./gradlew publish closeAndReleaseStagingRepository
 
 
   create-gh-release:
