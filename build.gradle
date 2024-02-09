@@ -100,7 +100,8 @@ publishing {
             groupId = 'io.specmesh'
             artifactId = 'kafka-random-generator'
             version = project.version
-
+            artifact sourceJar // Include sources JAR
+            artifact javadocJar // Include Javadoc JAR
             pom {
                 name = 'Kafka Random Generator'
                 description = 'Kafka Random Generator is a tool for randomly generating data to match Avro schemas'
