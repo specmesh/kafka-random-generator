@@ -195,4 +195,6 @@ nexusPublishing {
     }
 }
 
+release.dependsOn( javadoc, sourceJar)
+
 
