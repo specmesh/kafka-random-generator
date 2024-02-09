@@ -72,10 +72,11 @@ tasks.register('javadocJar', Jar) {
     from(tasks.named('javadoc'))
 }
 
-tasks.register('sourcesJar', Jar) {
+tasks.register('sourceJar', Jar) {
     archiveClassifier.set('sources')
     from sourceSets.main.allSource
 }
+
 
 tasks.register('standalone', Jar) {
     destinationDirectory.set(file("$rootDir/bin"))
@@ -100,8 +101,9 @@ publishing {
             groupId = 'io.specmesh'
             artifactId = 'kafka-random-generator'
             version = project.version
-            artifact sourceJar // Include sources JAR
-            artifact javadocJar // Include Javadoc JAR
+            artifact sourceJar
+            artifact javadocJar
+
             pom {
                 name = 'Kafka Random Generator'
                 description = 'Kafka Random Generator is a tool for randomly generating data to match Avro schemas'
@@ -154,7 +156,7 @@ signing {
 }
 
 artifacts {
-    archives jar, javadocJar, sourcesJar
+    archives jar, javadocJar, sourceJar
 }
 
 checkstyle {

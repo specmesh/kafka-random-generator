@@ -1,4 +1,4 @@
-# Arg: Avro Random Generator
+# Kafka Random Generator
 
 __NOTE: Building is required to run the program.__
 
@@ -6,10 +6,10 @@ __NOTE: Building is required to run the program.__
 
 #### The boring stuff
 
-Arg reads a schema through either stdin or a CLI-specified file and
+Reads a schema through either stdin or a CLI-specified file and
 generates random data to fit it.
 
-Arg can output data in either JSON or binary format, and when outputting
+Can output data in either JSON or binary format, and when outputting
 in JSON, can either print in compact format (one instance of spoofed
 data per line) or pretty format.
 
@@ -21,17 +21,17 @@ default is currently 1.
 
 #### The cool stuff
 
-Arg also allows for special annotations in the Avro schema it spoofs
+Also allows for special annotations in the Avro schema it spoofs
 that narrow down the kind of data produced. For example, when spoofing
 a string, you can currently either specify a length that the string
 should be (or one or both of a minimum and maximum that the length
 should be), a list of possible strings that the string should come from,
 or a regular expression that the string should adhere to. These
-annotations are specified inside the schema that Arg spoofs, as parts of
+annotations are specified inside the schema that it spoofs, as parts of
 a JSON object with an attribute name of "arg.properties".
 
 These annotations are specified as JSON properties in the schema that
-Arg spoofs. They should not collide with any existing properties, or
+it spoofs. They should not collide with any existing properties, or
 cause any issues if present when the schema is used with other programs.
 
 ## Building
